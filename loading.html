@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carregando - OdontoSimples</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="loading-body">
+
+  <div class="loading-container">
+    <img src="logo.png" alt="OdontoSimples" class="loading-logo">
+    <div class="loading-spinner"></div>
+    <p>Carregando seu painel...</p>
+  </div>
+
+  <script>
+    // Simula o carregamento do sistema
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 2500); // 2.5 segundos
+  </script>
+</body>
+</html>
