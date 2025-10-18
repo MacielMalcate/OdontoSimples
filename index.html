@@ -1,0 +1,85 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OdontoSimples - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Sidebar fixa -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="logo.png" alt="OdontoSimples Logo">
+      <h2>OdontoSimples</h2>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#" class="active">🏠 Dashboard</a></li>
+        <li><a href="#">🗓️ Agenda</a></li>
+        <li><a href="#">🧑‍⚕️ Pacientes</a></li>
+        <li><a href="#">📋 Prontuário</a></li>
+        <li><a href="#">🩺 Anamnese</a></li>
+        <li><a href="#">💰 Financeiro</a></li>
+        <li><a href="#">⚙️ Configurações</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <main class="main-content">
+    <header class="topbar">
+      <h1>Bem-vindo(a), Dr(a).</h1>
+      <!--<button class="logout-btn">Sair</button>-->
+    </header>
+
+    <section class="cards-container">
+      <div class="card">
+        <h3>Agenda</h3>
+        <p>Gerencie seus horários e compromissos.</p>
+      </div>
+
+      <div class="card">
+        <h3>Pacientes</h3>
+        <p>Cadastre e acompanhe seus pacientes.</p>
+      </div>
+
+      <div class="card">
+        <h3>Prontuário</h3>
+        <p>Acesse o histórico clínico completo.</p>
+      </div>
+
+      <div class="card">
+        <h3>Anamnese</h3>
+        <p>Formulário detalhado de saúde bucal.</p>
+      </div>
+
+      <div class="card">
+        <h3>Orçamentos</h3>
+        <p>Crie e envie propostas personalizadas.</p>
+      </div>
+
+      <div class="card">
+        <h3>Financeiro</h3>
+        <p>Controle receitas, despesas e relatórios.</p>
+      </div>
+    </section>
+  </main>
+<script>
+  // Impede acesso direto sem login
+  if(localStorage.getItem("loggedIn") !== "true"){
+    window.location.href = "login.html";
+  }
+</script>
+<button class="logout-btn" onclick="logout()">Sair</button>
+
+<script>
+  function logout(){
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>

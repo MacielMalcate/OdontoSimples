@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - OdontoSimples</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+
+  <div class="login-container">
+    <img src="logo.png" alt="OdontoSimples" class="login-logo">
+    <h2>Bem-vindo(a) ao OdontoSimples</h2>
+    <p class="login-subtitle">Acesse sua conta</p>
+
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Usuário" required>
+      <input type="password" id="password" placeholder="Senha" required>
+      <button type="submit">Entrar</button>
+      <p class="login-footer">© 2025 OdontoSimples</p>
+    </form>
+  </div>
+
+  <script>
+    // Simulação simples de login (sem servidor)
+    document.getElementById("loginForm").addEventListener("submit", function(event){
+      event.preventDefault();
+      
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      // Aqui você pode trocar por suas credenciais de teste
+      if(user === "admin" && pass === "1234"){
+        localStorage.setItem("loggedIn", "true");
+        window.location.href = "index.html";
+      } else {
+        alert("Usuário ou senha incorretos.");
+      }
+    });
+  </script>
+</body>
+</html>
