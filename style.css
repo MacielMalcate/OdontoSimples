@@ -239,3 +239,29 @@ body {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+.logo {
+  width: 40%;     /* ocupa 40% da largura do container */
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 15px;
+  display: block;
+}
+.logo-container {
+  text-align: center;     /* centraliza tudo dentro da div */
+  margin-bottom: 20px;
+}
+
+.logo-img {
+  width: 250px;           /* ajuste o tamanho da logo */
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;    /* centraliza e adiciona espaçamento inferior */
+}
+
+.logo-container h2 {
+  font-size: 22px;
+  color: #00796B;         /* verde escuro bonito */
+  font-weight: bold;
+  margin: 0;
+}
