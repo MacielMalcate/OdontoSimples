@@ -1,56 +1,768 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OdontoSimples - Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Diária e Semanal OdontoSimples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 20px;
+            position: relative; /* Adicionado para posicionamento absoluto do botão SAIR */
+        }
+        h1 {
+            color: #2196F3;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        /* ESTILO PARA O BOTÃO SAIR */
+        .exit-button {
+            position: absolute; /* Posição absoluta dentro do container */
+            top: 20px; /* Distância do topo */
+            right: 20px; /* Distância da direita */
+            background-color: #006400; /* Verde escuro */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none; /* Remove sublinhado padrão de links */
+            transition: background-color 0.2s ease; /* Transição suave no hover */
+            z-index: 20; /* Para garantir que fique acima de outros elementos */
+        }
+        .exit-button:hover {
+            background-color: #004d00; /* Verde um pouco mais escuro no hover */
+        }
+        /* FIM DO ESTILO PARA O BOTÃO SAIR */
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .controls label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .controls select, .controls input[type="date"], .controls button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .controls button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+        .view-toggle-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .view-btn {
+            background-color: #6c757d; /* Cinza padrão */
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .view-btn.active {
+            background-color: #2196F3; /* Azul para o botão ativo */
+        }
+        .view-btn:hover:not(.active) {
+            background-color: #5a6268;
+        }
+
+        .view-period-display {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #555;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        /* --- Estilos da Grade do Calendário --- */
+        .calendar-grid {
+            display: grid;
+            gap: 1px;
+            border: 1px solid #e0e0e0;
+            background-color: #e0e0e0;
+            overflow-x: auto;
+        }
+        .time-label, .header-cell {
+            background-color: #f8f8f8;
+            padding: 10px 5px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            left: 0;
+            z-index: 10;
+        }
+        .header-cell { /* Para cabeçalhos de dias ou dentistas */
+            background-color: #e3f2fd;
+            color: #2196F3;
+            z-index: 5;
+        }
+        .time-label.corner {
+            background-color: #e3f2fd;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .slot-cell {
+            background-color: #ffffff;
+            min-height: 50px;
+            border-bottom: 1px dashed #eee;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5px 10px;
+            font-size: 0.9em;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+        }
+        .slot-cell:hover {
+            background-color: #f0f0f0;
+        }
+        /* Cor amarela para slots agendados */
+        .slot-cell.booked-slot {
+            background-color: #ffeb3b; /* Amarelo */
+            border-color: #fdd835;
+            color: #333;
+        }
+        .slot-cell.booked-slot:hover {
+            background-color: #fbc02d; /* Amarelo mais escuro no hover */
+        }
+        .slot-cell.unavailable {
+            background-color: #ffebee; /* Vermelho claro para indisponível */
+            color: #c62828;
+            cursor: not-allowed;
+        }
+        .slot-cell.available {
+            color: #4CAF50;
+        }
+        .slot-cell.today-cell {
+            background-color: #e0f2f7;
+        }
+        .slot-cell .appointment-info {
+            font-weight: bold;
+            color: #0d47a1;
+            padding: 2px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .slot-cell .dentist-summary {
+            font-size: 0.8em;
+            color: #777;
+        }
+        .slot-cell .book-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            cursor: pointer;
+            margin-top: 5px;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .slot-cell .book-btn:hover {
+            background-color: #45a049;
+        }
+        .slot-cell .delete-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: none;
+            border: none;
+            color: #d32f2f;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        .slot-cell .delete-btn:hover {
+            opacity: 1;
+        }
+
+        /* --- Estilos do Formulário de Agendamento --- */
+        .add-appointment-form {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            background-color: #e3f2fd;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .add-appointment-form input, .add-appointment-form select, .add-appointment-form button {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .add-appointment-form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .add-appointment-form button:hover {
+            background-color: #45a049;
+        }
+        .close-form-btn {
+            background-color: #f44336 !important;
+            margin-top: 10px;
+        }
+        .close-form-btn:hover {
+            background-color: #d32f2f !important;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Agenda OdontoSimples</h1>
+        <a href="index.html" class="exit-button">SAIR</a> <!-- Seu botão SAIR -->
 
-  <!-- Sidebar fixa -->
-  <aside class="sidebar">
-    <div class="logo.login-container.">
-      <img src="logo/logo.png" alt="Logo OdontoSimples" class="logo-img">
+        <div class="controls">
+            <button id="prevBtn">&lt; Anterior</button>
+            <input type="date" id="datePicker">
+            <button id="nextBtn">Próxima &gt;</button>
 
-    <!--<h2>OdontoSimples</h2>-->
+            <span id="viewPeriodDisplay" class="view-period-display"></span>
+
+            <div class="view-toggle-buttons">
+                <button id="dailyViewBtn" class="view-btn active">Visão Diária</button>
+                <button id="weeklyViewBtn" class="view-btn">Visão Semanal</button>
+            </div>
+
+            <div>
+                <label for="dentistFilter">Filtrar Dentista:</label>
+                <select id="dentistFilter">
+                    <option value="all">Todos os Dentistas</option>
+                    <!-- Opções de dentista serão preenchidas via JS -->
+                </select>
+            </div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid">
+            <!-- Conteúdo da agenda será gerado pelo JavaScript -->
+        </div>
+
+        <form id="addAppointmentForm" class="add-appointment-form" style="display: none;">
+            <h2>Agendar Novo Compromisso</h2>
+            <input type="hidden" id="formDate">
+            <input type="hidden" id="formTime">
+            <p>Agendando para <strong id="formDisplayDateTime"></strong></p>
+            <input type="text" id="formPatientName" placeholder="Nome do Paciente" required>
+            <select id="formDentistSelect" required>
+                <option value="">Selecione o Dentista</option>
+                <!-- Opções de dentista serão preenchidas via JS -->
+            </select>
+            <button type="submit">Confirmar Agendamento</button>
+            <button type="button" class="close-form-btn" onclick="closeAppointmentForm()">Cancelar</button>
+        </form>
     </div>
-    <nav>
-      <ul>
-        <li><a href="index.html" class="active">🏠 Dashboard</a></li>
-        <li><a href="agenda.html">🗓️ Agenda</a></li>
-        <li><a href="pacientes.html">🧑 Pacientes</a></li>
-        <li><a href="prontuário.html">📋 Prontuário</a></li>
-        <li><a href="anamnése.html">🩺 Anamnese</a></li>
-        <li><a href="financeiro.html">💰 Financeiro</a></li>
-        <li><a href="configuracões.html">⚙️ Configurações</a></li>
-      </ul>
-    </nav>
-  </aside>
 
-  <!-- Conteúdo principal -->
-  <main class="main-content">
-    <header class="topbar">
-      <h1>Agenda</h1>
-      <!--<button class="logout-btn">Sair</button>-->
-    </header>
+    <script type="module">
+        // Importa os módulos do Firebase (precisa ter o SDK instalado e configurado)
+        // import { db } from './firebase'; // <-- Descomente e ajuste o caminho se você tiver um arquivo firebase.ts/js
+        // import { collection, query, where, getDocs, addDoc, deleteDoc, doc, onSnapshot } from 'firebase/firestore'; // Para usar o Firestore
 
-  </main>
-  <h1></h1>
-<script>
-  // Impede acesso direto sem login
-  if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "login.html";
-  }
-</script>
-<button class="logout-btn" onclick="logout()">Sair</button>
+        const datePicker = document.getElementById('datePicker');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const viewPeriodDisplay = document.getElementById('viewPeriodDisplay');
+        const dailyViewBtn = document.getElementById('dailyViewBtn');
+        const weeklyViewBtn = document.getElementById('weeklyViewBtn');
+        const dentistFilter = document.getElementById('dentistFilter');
+        const calendarGrid = document.getElementById('calendarGrid');
+        const addAppointmentForm = document.getElementById('addAppointmentForm');
+        const formDate = document.getElementById('formDate');
+        const formTime = document.getElementById('formTime');
+        const formDisplayDateTime = document.getElementById('formDisplayDateTime');
+        const formPatientName = document.getElementById('formPatientName');
+        const formDentistSelect = document.getElementById('formDentistSelect');
 
-<script>
-  function logout(){
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login.html";
-  }
-</script>
+        const DENTISTS = [
+            "Dr. Carlos Silva",
+            "Dra. Ana Costa",
+            "Dr. Pedro Almeida"
+        ];
+        
+        let appointments = []; // Simula dados do Firebase
+        let currentDate = new Date(); // Data atualmente selecionada, serve como âncora
+        let currentView = 'daily'; // 'daily' ou 'weekly'
+        let selectedDentistFilter = 'all';
 
+        // --- Funções Auxiliares de Data ---
+        function getStartOfWeek(date) {
+            const d = new Date(date);
+            const day = d.getDay(); // 0 for Sunday, 1 for Monday
+            const diff = d.getDate() - day; // Adjust to Sunday (first day of the week)
+            d.setDate(diff);
+            d.setHours(0, 0, 0, 0);
+            return d;
+        }
+
+        function formatDateToISO(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function isSameDay(date1, date2) {
+            const d1 = new Date(date1); d1.setHours(0,0,0,0);
+            const d2 = new Date(date2); d2.setHours(0,0,0,0);
+            return d1.getTime() === d2.getTime();
+        }
+
+        function displayPeriodRange() {
+            if (currentView === 'daily') {
+                viewPeriodDisplay.textContent = new Date(currentDate).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+            } else { // weekly
+                const weekStart = getStartOfWeek(currentDate);
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+                viewPeriodDisplay.textContent = 
+                    `${weekStart.toLocaleDateString('pt-BR')} - ${weekEnd.toLocaleDateString('pt-BR')}`;
+            }
+        }
+
+        // --- Renderização da Grade (Wrapper) ---
+        function renderCalendar() {
+            closeAppointmentForm();
+            calendarGrid.innerHTML = '';
+
+            if (currentView === 'daily') {
+                _renderDailyView();
+            } else {
+                _renderWeeklyView();
+            }
+            displayPeriodRange();
+        }
+
+        // --- Renderização da Visão Diária ---
+        function _renderDailyView() {
+            const dentistsToShow = selectedDentistFilter === 'all' ? DENTISTS : [selectedDentistFilter];
+            calendarGrid.style.gridTemplateColumns = `80px repeat(${dentistsToShow.length}, 1fr)`;
+
+            // Headers
+            const cornerHeader = document.createElement('div');
+            cornerHeader.classList.add('time-label', 'corner');
+            calendarGrid.appendChild(cornerHeader);
+            dentistsToShow.forEach(dentist => {
+                const dentistHeader = document.createElement('div');
+                dentistHeader.classList.add('header-cell');
+                dentistHeader.textContent = dentist;
+                calendarGrid.appendChild(dentistHeader);
+            });
+
+            const startHour = 8;
+            const endHour = 18;
+            const intervalMinutes = 30;
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const viewDateISO = formatDateToISO(currentDate);
+
+            for (let h = startHour; h < endHour; h++) {
+                for (let m = 0; m < 60; m += intervalMinutes) {
+                    const time = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+                    
+                    const timeLabel = document.createElement('div');
+                    timeLabel.classList.add('time-label');
+                    timeLabel.textContent = time;
+                    calendarGrid.appendChild(timeLabel);
+
+                    dentistsToShow.forEach(dentist => {
+                        const slotCell = document.createElement('div');
+                        slotCell.classList.add('slot-cell');
+                        slotCell.dataset.date = viewDateISO;
+                        slotCell.dataset.time = time;
+                        slotCell.dataset.dentist = dentist; // Adiciona o dentista ao dataset
+
+                        if (isSameDay(currentDate, today)) {
+                            slotCell.classList.add('today-cell');
+                        }
+
+                        const appointment = appointments.find(app => 
+                            app.date === viewDateISO && app.time === time && app.dentistName === dentist
+                        );
+
+                        if (appointment) {
+                            slotCell.classList.add('booked-slot'); // <<< Já adiciona a classe aqui!
+                            slotCell.innerHTML = `
+                                <span>${appointment.patientName}</span>
+                                <button class="delete-btn" data-id="${appointment.id}" data-action="delete">&times;</button>
+                            `;
+                            slotCell.onclick = null; // Remove o clique para agendar
+                        } else {
+                            slotCell.classList.add('available');
+                            slotCell.innerHTML = `Disponível<button class="book-btn" data-action="book">Agendar</button>`;
+                            slotCell.onclick = (event) => {
+                                if (event.target.dataset.action === 'book') {
+                                    openAppointmentForm(currentDate, time, dentist);
+                                }
+                            };
+                        }
+                        calendarGrid.appendChild(slotCell);
+                    });
+                }
+            }
+        }
+
+        // --- Renderização da Visão Semanal ---
+        function _renderWeeklyView() {
+            const weekStart = getStartOfWeek(currentDate);
+            calendarGrid.style.gridTemplateColumns = `80px repeat(7, 1fr)`;
+
+            // Headers
+            const cornerHeader = document.createElement('div');
+            cornerHeader.classList.add('time-label', 'corner');
+            calendarGrid.appendChild(cornerHeader);
+
+            const daysOfWeekNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            for (let i = 0; i < 7; i++) {
+                const dayHeader = document.createElement('div');
+                dayHeader.classList.add('header-cell');
+                const dayDate = new Date(weekStart);
+                dayDate.setDate(weekStart.getDate() + i);
+                dayHeader.textContent = `${daysOfWeekNames[dayDate.getDay()]} ${dayDate.getDate()}/${dayDate.getMonth() + 1}`;
+                if (isSameDay(dayDate, today)) {
+                    dayHeader.classList.add('today-cell');
+                }
+                calendarGrid.appendChild(dayHeader);
+            }
+
+            const startHour = 8;
+            const endHour = 18;
+            const intervalMinutes = 30;
+
+            for (let h = startHour; h < endHour; h++) {
+                for (let m = 0; m < 60; m += intervalMinutes) {
+                    const time = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+                    
+                    const timeLabel = document.createElement('div');
+                    timeLabel.classList.add('time-label');
+                    timeLabel.textContent = time;
+                    calendarGrid.appendChild(timeLabel);
+
+                    for (let i = 0; i < 7; i++) {
+                        const cellDate = new Date(weekStart);
+                        cellDate.setDate(weekStart.getDate() + i);
+                        const cellDateISO = formatDateToISO(cellDate);
+
+                        const slotCell = document.createElement('div');
+                        slotCell.classList.add('slot-cell');
+                        slotCell.dataset.date = cellDateISO;
+                        slotCell.dataset.time = time;
+
+                        if (isSameDay(cellDate, today)) {
+                            slotCell.classList.add('today-cell');
+                        }
+
+                        // Filtrar agendamentos para a célula atual (data e hora)
+                        const appointmentsInSlot = appointments.filter(app => 
+                            app.date === cellDateISO && app.time === time
+                        );
+                        
+                        let dentistsAvailable = 0;
+                        let bookedDentistsCount = 0;
+                        let bookedDentistsDetails = [];
+
+                        DENTISTS.forEach(dentist => {
+                            const isBooked = appointmentsInSlot.some(app => app.dentistName === dentist);
+                            if (isBooked) {
+                                bookedDentistsCount++;
+                                const appointment = appointmentsInSlot.find(app => app.dentistName === dentist);
+                                if (appointment) { // Adiciona verificação para garantir que o agendamento existe
+                                    bookedDentistsDetails.push(`${dentist}: ${appointment.patientName}`);
+                                }
+                            } else {
+                                dentistsAvailable++;
+                            }
+                        });
+
+                        slotCell.innerHTML = '';
+                        // Se um dentista específico está filtrado, mostre apenas os detalhes dele
+                        if (selectedDentistFilter !== 'all') {
+                            const specificAppointment = appointmentsInSlot.find(app => app.dentistName === selectedDentistFilter);
+                            if (specificAppointment) {
+                                slotCell.classList.add('booked-slot'); // <<< Já adiciona a classe aqui!
+                                slotCell.innerHTML = `
+                                    <span>${specificAppointment.patientName}</span>
+                                    <button class="delete-btn" data-id="${specificAppointment.id}" data-action="delete">&times;</button>
+                                `;
+                                slotCell.onclick = null;
+                            } else {
+                                slotCell.classList.add('available');
+                                slotCell.innerHTML = `Disponível<button class="book-btn" data-action="book">Agendar</button>`;
+                                slotCell.onclick = (event) => {
+                                    if (event.target.dataset.action === 'book') {
+                                        openAppointmentForm(cellDate, time, selectedDentistFilter);
+                                    }
+                                };
+                            }
+                        } else {
+                            // Visão "Todos os Dentistas" (Resumo)
+                            if (bookedDentistsCount > 0) {
+                                slotCell.classList.add('booked-slot'); // <<< Já adiciona a classe aqui!
+                                slotCell.innerHTML += `<span class="appointment-info">${bookedDentistsCount} Agendado(s)</span>`;
+                                bookedDentistsDetails.forEach(detail => {
+                                    slotCell.innerHTML += `<div class="dentist-summary">${detail}</div>`;
+                                });
+                            }
+                            if (dentistsAvailable > 0) {
+                                slotCell.innerHTML += `<span class="available">${dentistsAvailable} Disponível(is)</span>`;
+                                slotCell.innerHTML += `<button class="book-btn" data-action="book">Agendar</button>`;
+                                slotCell.onclick = (event) => {
+                                    if (event.target.dataset.action === 'book') {
+                                        openAppointmentForm(cellDate, time, 'all'); // Abre o form para escolher o dentista
+                                    }
+                                };
+                            } else if (bookedDentistsCount > 0 && dentistsAvailable === 0) {
+                                slotCell.classList.add('unavailable');
+                                slotCell.innerHTML = 'Totalmente Ocupado';
+                                slotCell.onclick = null;
+                            } else {
+                                slotCell.innerHTML = 'Sem horários';
+                                slotCell.onclick = null;
+                            }
+                        }
+                        calendarGrid.appendChild(slotCell);
+                    }
+                }
+            }
+        }
+
+
+        // --- Funções do Formulário de Agendamento ---
+        function openAppointmentForm(date, time, selectedDentistForForm = 'all') {
+            addAppointmentForm.style.display = 'flex';
+            formDate.value = formatDateToISO(date);
+            formTime.value = time;
+            
+            formDisplayDateTime.textContent = `${new Date(date).toLocaleDateString('pt-BR')} às ${time}`;
+            
+            if (selectedDentistForForm !== 'all') {
+                formDentistSelect.value = selectedDentistForForm;
+                formDentistSelect.disabled = true;
+            } else {
+                formDentistSelect.value = ''; // Reseta o dropdown para que o usuário escolha
+                formDentistSelect.disabled = false;
+            }
+            formPatientName.focus();
+        }
+
+        function closeAppointmentForm() {
+            addAppointmentForm.style.display = 'none';
+            addAppointmentForm.reset();
+            formDentistSelect.disabled = false;
+        }
+
+        // --- Event Listeners ---
+        datePicker.addEventListener('change', (event) => {
+            currentDate = new Date(event.target.value + 'T12:00:00'); // Usar T12:00:00 para evitar problemas de fuso horário
+            renderCalendar();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentView === 'daily') {
+                currentDate.setDate(currentDate.getDate() - 1);
+            } else { // weekly
+                currentDate.setDate(currentDate.getDate() - 7);
+            }
+            datePicker.value = formatDateToISO(currentDate); // Atualiza o datePicker
+            renderCalendar();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentView === 'daily') {
+                currentDate.setDate(currentDate.getDate() + 1);
+            } else { // weekly
+                currentDate.setDate(currentDate.getDate() + 7);
+            }
+            datePicker.value = formatDateToISO(currentDate); // Atualiza o datePicker
+            renderCalendar();
+        });
+
+        dailyViewBtn.addEventListener('click', () => {
+            currentView = 'daily';
+            dailyViewBtn.classList.add('active');
+            weeklyViewBtn.classList.remove('active');
+            renderCalendar();
+        });
+
+        weeklyViewBtn.addEventListener('click', () => {
+            currentView = 'weekly';
+            weeklyViewBtn.classList.add('active');
+            dailyViewBtn.classList.remove('active');
+            renderCalendar();
+        });
+
+        dentistFilter.addEventListener('change', (event) => {
+            selectedDentistFilter = event.target.value;
+            renderCalendar();
+        });
+
+        addAppointmentForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const selectedDentist = formDentistSelect.value;
+            if (!selectedDentist) {
+                alert('Por favor, selecione o dentista.');
+                return;
+            }
+
+            const newAppointment = {
+                id: Date.now(), // ID temporário, no Firebase seria gerado automaticamente
+                date: formDate.value,
+                time: formTime.value,
+                patientName: formPatientName.value,
+                dentistName: selectedDentist
+            };
+
+            const isBooked = appointments.some(app => 
+                app.date === newAppointment.date &&
+                app.time === newAppointment.time &&
+                app.dentistName === newAppointment.dentistName
+            );
+
+            if (isBooked) {
+                alert('Este horário já está agendado para este dentista!');
+                return;
+            }
+
+            appointments.push(newAppointment);
+            // Ordena para manter a consistência, embora o Firebase faria a ordenação na busca
+            appointments.sort((a, b) => {
+                const dateTimeA = new Date(`${a.date}T${a.time}`);
+                const dateTimeB = new Date(`${b.date}T${b.time}`);
+                if (dateTimeA - dateTimeB !== 0) return dateTimeA - dateTimeB;
+                return a.dentistName.localeCompare(b.dentistName);
+            });
+
+            renderCalendar();
+            closeAppointmentForm();
+
+            // *** AQUI VOCÊ INTEGRARIA COM FIREBASE CLOUD FIRESTORE! ***
+            // Exemplo para adicionar:
+            /*
+            addDoc(collection(db, "appointments"), newAppointment)
+              .then((docRef) => {
+                  console.log("Documento adicionado com ID: ", docRef.id);
+                  // O 'onSnapshot' acima cuidaria de atualizar a UI automaticamente!
+              })
+              .catch((error) => console.error("Erro ao adicionar documento: ", error));
+            */
+        });
+
+        calendarGrid.addEventListener('click', function(event) {
+            if (event.target.classList.contains('delete-btn')) {
+                const appointmentIdToDelete = parseInt(event.target.dataset.id);
+                // No Firestore, você precisaria do ID real do documento:
+                // const firebaseDocId = appointments.find(app => app.id === appointmentIdToDelete)?.firebaseDocId;
+
+                appointments = appointments.filter(app => app.id !== appointmentIdToDelete);
+                renderCalendar();
+
+                // *** AQUI VOCÊ INTEGRARIA COM FIREBASE PARA EXCLUIR ***
+                // Exemplo para excluir:
+                /*
+                if (firebaseDocId) {
+                    deleteDoc(doc(db, "appointments", firebaseDocId))
+                      .then(() => console.log("Documento excluído com sucesso!"))
+                      .catch((error) => console.error("Erro ao excluir documento: ", error));
+                }
+                */
+            }
+        });
+
+        // --- Inicialização ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Preenche os seletores de dentistas
+            const populateDentistSelect = (selectElement) => {
+                DENTISTS.forEach(dentist => {
+                    const option = document.createElement('option');
+                    option.value = dentist;
+                    option.textContent = dentist;
+                    selectElement.appendChild(option);
+                });
+            };
+            populateDentistSelect(dentistFilter);
+            populateDentistSelect(formDentistSelect);
+
+            currentDate = new Date();
+            datePicker.value = formatDateToISO(currentDate);
+
+            // *** CARREGAMENTO INICIAL COM FIREBASE (assíncrono e em tempo real) ***
+            // Descomente esta seção após configurar o Firebase SDK no seu projeto!
+            /*
+            const appointmentsCol = collection(db, "appointments");
+            const q = query(appointmentsCol); // Você pode adicionar filtros aqui se quiser
+
+            onSnapshot(q, (snapshot) => {
+                appointments = snapshot.docs.map(doc => ({ id: doc.id, firebaseDocId: doc.id, ...doc.data() }));
+                // O 'firebaseDocId: doc.id' é importante para deletar/atualizar depois
+                renderCalendar(); // Renderiza a UI com os dados mais recentes do Firebase
+            }, (error) => console.error("Erro ao carregar agendamentos do Firestore: ", error));
+            */
+
+            // SIMULAÇÃO DE DADOS (apenas para testar sem Firebase)
+            const today = new Date();
+            appointments = [
+                { id: 1, date: formatDateToISO(today), time: "09:00", patientName: "Cliente Teste Diário", dentistName: "Dr. Carlos Silva" },
+                { id: 2, date: formatDateToISO(today), time: "10:30", patientName: "Cliente B Diário", dentistName: "Dra. Ana Costa" },
+                { id: 3, date: formatDateToISO(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2)), time: "14:00", patientName: "Cliente C Semanal", dentistName: "Dr. Pedro Almeida" }
+            ];
+            // Para garantir que os dados simulados estejam na semana correta
+            currentDate = today;
+
+            renderCalendar(); // Renderiza a UI inicial com os dados (simulados ou do Firebase)
+        });
+    </script>
 </body>
 </html>
