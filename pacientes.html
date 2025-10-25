@@ -1,56 +1,232 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OdontoSimples - Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pacientes - OdontoSimples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0; /* Remover margem padrão do body */
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* Estilos para o cabeçalho (onde ficará o logo e o botão Sair) */
+        header {
+            background-color: #ffffff; /* Fundo branco para o cabeçalho */
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between; /* Alinha itens nas extremidades */
+            align-items: center; /* Alinha itens verticalmente */
+        }
+
+        .logo {
+            height: 150px; /* Ajuste o tamanho do seu logo conforme necessário */
+            margin-right: 20px; /* Espaçamento entre o logo e o título */
+        }
+
+        .header-content h1 {
+            margin: 0; /* Remove margem padrão do h1 */
+            flex-grow: 1; /* Permite que o título ocupe o espaço restante */
+            text-align: center; /* Centraliza o título */
+            color: #2c3e50;
+            font-size: 1.8em; /* Tamanho da fonte do título */
+        }
+
+        .btn-sair {
+            background-color: #e74c3c; /* Cor vermelha para o botão Sair */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-sair:hover {
+            background-color: #c0392b;
+        }
+
+        .patient-list {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .patient-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .patient-item:last-child {
+            border-bottom: none;
+        }
+        .patient-name {
+            flex-grow: 1;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #34495e;
+        }
+        .patient-actions button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease;
+        }
+        .patient-actions button:hover {
+            background-color: #2980b9;
+        }
+        /* Cores diferentes para os botões (opcional) */
+        .patient-actions .btn-anamnese { background-color: #27ae60; }
+        .patient-actions .btn-anamnese:hover { background-color: #229954; }
+        .patient-actions .btn-prontuario { background-color: #e67e22; }
+        .patient-actions .btn-prontuario:hover { background-color: #d35400; }
+        .patient-actions .btn-cadastro { background-color: #3498db; }
+        .patient-actions .btn-cadastro:hover { background-color: #2980b9; }
+        .patient-actions .btn-financeiro { background-color: #9b59b6; } /* Mudei para um roxo */
+        .patient-actions .btn-financeiro:hover { background-color: #8e44ad; }
+
+
+        @media (max-width: 600px) {
+            .header-content {
+                flex-wrap: wrap; /* Permite que os itens do cabeçalho quebrem linha */
+                justify-content: center;
+            }
+            .logo {
+                margin-bottom: 10px; /* Espaçamento abaixo do logo em telas menores */
+                margin-right: 0;
+            }
+            .header-content h1 {
+                width: 100%; /* Título ocupa toda a largura */
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .btn-sair {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .patient-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .patient-actions {
+                margin-top: 10px;
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+            .patient-actions button {
+                margin-left: 0;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Sidebar fixa -->
-  <aside class="sidebar">
-    <div class="logo.login-container.">
-      <img src="logo/logo.png" alt="Logo OdontoSimples" class="logo-img">
-
-    <!--<h2>OdontoSimples</h2>-->
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html" class="active">🏠 Dashboard</a></li>
-        <li><a href="agenda.html">🗓️ Agenda</a></li>
-        <li><a href="pacientes.html">🧑 Pacientes</a></li>
-        <li><a href="prontuário.html">📋 Prontuário</a></li>
-        <li><a href="anamnese.html">🩺 Anamnese</a></li>
-        <li><a href="financeiro.html">💰 Financeiro</a></li>
-        <li><a href="configuracões.html">⚙️ Configuracões</a></li>
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- Conteúdo principal -->
-  <main class="main-content">
-    <header class="topbar">
-      <h1>Pacientes</h1>
-      <!--<button class="logout-btn">Sair</button>-->
+    <header>
+        <div class="header-content">
+            <!-- A logomarca da OdontoSimples.
+                 ATENÇÃO: Substitua 'images/odonto_simples_logo.png' pelo caminho real do seu arquivo de imagem! -->
+            <img src="logo/logo.png" alt="OdontoSimples Logomarca" class="logo">
+            <h1> Pacientes</h1>
+            <button id="btnSair" class="btn-sair">Sair</button>
+        </div>
     </header>
 
-  </main>
-  <h1></h1>
-<script>
-  // Impede acesso direto sem login
-  if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "login.html";
-  }
-</script>
-<button class="logout-btn" onclick="logout()">Sair</button>
+    <div id="patientListContainer" class="patient-list">
+        <!-- Pacientes serão carregados aqui pelo JavaScript -->
+    </div>
 
-<script>
-  function logout(){
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login.html";
-  }
-</script>
+    <script>
+        // Dados de exemplo de pacientes. Em um aplicativo real, estes viriam do Firestore.
+        const patients = [
+            { id: 'pat001', name: 'Maria Silva' },
+            { id: 'pat002', name: 'João Oliveira' },
+            { id: 'pat003', name: 'Ana Souza' },
+            { id: 'pat004', name: 'Carlos Pereira' },
+            { id: 'pat005', name: 'Fernanda Costa' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('patientListContainer');
+
+            // Lógica para o botão Sair
+            const btnSair = document.getElementById('btnSair');
+            if (btnSair) {
+                btnSair.addEventListener('click', () => {
+                    // Redireciona para a página index.html
+                    window.location.href = 'index.html';
+                });
+            }
+
+            patients.forEach(patient => {
+                const patientItem = document.createElement('div');
+                patientItem.className = 'patient-item';
+
+                const patientName = document.createElement('div');
+                patientName.className = 'patient-name';
+                patientName.textContent = patient.name;
+                patientItem.appendChild(patientName);
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'patient-actions';
+
+                // Botão de Anamnese
+                const btnAnamnese = document.createElement('button');
+                btnAnamnese.className = 'btn-anamnese';
+                btnAnamnese.textContent = 'Anamnese';
+                btnAnamnese.onclick = () => alert(`Anamnese do paciente: ${patient.name} (ID: ${patient.id})`);
+                actionsDiv.appendChild(btnAnamnese);
+
+                // Botão de Prontuário
+                const btnProntuario = document.createElement('button');
+                btnProntuario.className = 'btn-prontuario';
+                btnProntuario.textContent = 'Prontuário';
+                btnProntuario.onclick = () => alert(`Prontuário do paciente: ${patient.name} (ID: ${patient.id})`);
+                actionsDiv.appendChild(btnProntuario);
+
+                // Botão de Cadastro
+                const btnCadastro = document.createElement('button');
+                btnCadastro.className = 'btn-cadastro';
+                btnCadastro.textContent = 'Cadastro';
+                btnCadastro.onclick = () => alert(`Editar cadastro do paciente: ${patient.name} (ID: ${patient.id})`);
+                actionsDiv.appendChild(btnCadastro);
+
+                // Botão de Financeiro
+                const btnFinanceiro = document.createElement('button');
+                btnFinanceiro.className = 'btn-financeiro';
+                btnFinanceiro.textContent = 'Financeiro';
+                btnFinanceiro.onclick = () => alert(`Financeiro do paciente: ${patient.name} (ID: ${patient.id})`);
+                actionsDiv.appendChild(btnFinanceiro);
+
+                patientItem.appendChild(actionsDiv);
+                container.appendChild(patientItem);
+            });
+        });
+    </script>
 
 </body>
 </html>
