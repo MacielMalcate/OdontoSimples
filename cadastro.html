@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - OdontoSimples</title>
+    <link rel="stylesheet" href="style.css"> <!-- Reutilizando o CSS principal ou crie um novo para o formulário -->
+    <style>
+        /* Estilos adicionais ou sobrescritas específicas para esta página */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        header {
+            background-color: #218838; /* Azul primário */
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+
+        main {
+            flex-grow: 1; /* Faz com que o main ocupe o espaço restante */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .cadastro-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .cadastro-container h2 {
+            color: #218838;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box; /* Garante que padding e border não aumentem a largura */
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-salvar {
+            background-color: #28a745; /* Verde para salvar */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: auto; /* Ajusta a largura ao conteúdo */
+            margin-top: 20px;
+        }
+
+        .btn-salvar:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        footer {
+            background-color: #218838;
+            color: white;
+            text-align: center;
+            padding: 2em 0;
+            margin-top: auto; /* Empurra o footer para baixo */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>OdontoSimples</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="cadastro-container">
+            <h2>Crie Sua Conta</h2>
+            <form id="cadastroForm">
+                <div class="form-group">
+                    <label for="nomeCompleto">Nome Completo</label>
+                    <input type="text" id="nomeCompleto" placeholder="Seu nome completo" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" placeholder="Mínimo de 6 caracteres" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmarSenha">Confirmar Senha</label>
+                    <input type="password" id="confirmarSenha" placeholder="Repita sua senha" required>
+                </div>
+                <button type="submit" class="btn-salvar">Cadastrar</button>
+                <div id="message" class="message" style="display:none;"></div>
+            </form>
+            <p style="margin-top: 20px;">Já tem uma conta? <a href="/login" style="color: #007bff; text-decoration: none;">Faça login aqui!</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 OdontoSimples. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs - ADICIONE SEUS PRÓPRIOS CÓDIGOS DE CONFIGURAÇÃO! -->
+    <!-- Insira seus próprios scripts da SDK do Firebase aqui, como no exemplo abaixo -->
+    <!-- Exemplo de como carregar os SDKs do Firebase via CDN (ou npm se preferir) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Seu script personalizado para o cadastro -->
+    <script src="cadastro.js"></script>
+</body>
+</html>

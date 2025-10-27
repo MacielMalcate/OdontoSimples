@@ -40,7 +40,7 @@
 
         alert(`Bem-vindo(a), ${user.displayName || "Dentista"}!`);
         localStorage.setItem("loggedIn", "true");
-        window.location.href = "index.html";
+        window.location.href = "dashboard.html";
       } catch (error) {
         alert("Erro ao fazer login: " + error.message);
       }

@@ -1,92 +1,182 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OdontoSimples - Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OdontoSimples - Gestão Odontológica Descomplicada</title>
+    <style>
+        /* Estilos básicos para a página */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #007bff; /* Azul primário */
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #hero {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 80px 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        #hero h2 {
+            color: #007bff;
+            font-size: 2.8em;
+            margin-bottom: 20px;
+        }
+
+        #hero p {
+            font-size: 1.3em;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            color: #555;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Espaço entre os botões */
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Azul mais escuro no hover */
+            transform: translateY(-2px);
+        }
+
+        .button.secondary {
+            background-color: #28a745; /* Verde para o botão de cadastro */
+        }
+
+        .button.secondary:hover {
+            background-color: #218838; /* Verde mais escuro no hover */
+        }
+
+        #features {
+            background-color: #e9f0f9;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        #features h3 {
+            color: #007bff;
+            font-size: 2em;
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: left;
+        }
+
+        .feature-item h4 {
+            color: #007bff;
+            margin-top: 0;
+            font-size: 1.4em;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2em 0;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Sidebar fixa -->
-  <aside class="sidebar">
-    <div class="logo.login-container.">
-      <img src="logo/logo.png" alt="Logo OdontoSimples" class="logo-img">
-
-    <!--<h2>OdontoSimples</h2>-->
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html" class="active">🏠 Dashboard</a></li>
-        <li><a href="agenda.html">🗓️ Agenda</a></li>
-        <li><a href="pacientes.html">🧑 Pacientes</a></li>
-        <li><a href="prontuário.html">📋 Prontuário</a></li>
-        <li><a href="anamnese.html">🩺 Anamnese</a></li>
-        <li><a href="financeiro.html">💰 Financeiro</a></li>
-        <li><a href="configuracões.html">⚙️ Configuracões</a></li>
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- Conteúdo principal -->
-  <main class="main-content">
-    <header class="topbar">
-      <h1>Bem-vindo(a), Dr(a) .</h1>
-      <!--<button class="logout-btn">Sair</button>-->
+    <header>
+        <div class="container">
+            <h1>OdontoSimples</h1>
+        </div>
     </header>
 
-    <section class="cards-container">
+    <main>
+        <section id="hero" class="container">
+            <h2>A Gestão do Seu Consultório Nunca Foi Tão Simples!</h2>
+            <p>Com o OdontoSimples, você otimiza o seu tempo, organiza sua agenda e prontuários, e foca no que realmente importa: seus pacientes. Tenha controle total na palma da sua mão!</p>
+            <div class="button-group">
+                <!-- Botão para usuários existentes -->
+                <a href="/login.html" class="button">Acessar Sistema</a>
+                <!-- Botão para novos clientes -->
+                <a href="/cadastro.html" class="button secondary">Cadastre-se Agora</a>
+            </div>
+        </section>
 
-        <a href="agenda.html" class="card-link">
-      <div class="card">
-        <h3>Agenda</h3>
-        <p>Gerencie seus horários e compromissos.</p>
-      </div>
+        <section id="features" class="container">
+            <h3>Recursos que Transformam o Seu Dia a Dia</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>Agendamento Inteligente</h4>
+                    <p>Organize sua agenda com facilidade, evite conflitos e reduza faltas com lembretes automáticos.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Prontuários Digitais Completos</h4>
+                    <p>Acesse o histórico dos pacientes de qualquer lugar, de forma segura e padronizada.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Gestão Financeira Simplificada</h4>
+                    <p>Controle entradas, saídas e fature com poucos cliques, sem complicações.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Comunicação Eficaz</h4>
+                    <p>Mantenha contato com seus pacientes de forma profissional e personalizada.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-
-      <a href="pacientes.html" class="card-link">
-  <div class="card">
-    <h3>Pacientes</h3>
-    <p>Cadastre e acompanhe seus pacientes.</p>
-  </div>
-</a>
-
-
-      <div class="card">
-        <h3>Prontuário</h3>
-        <p>Acesse o histórico clínico completo.</p>
-      </div>
-
-      <div class="card">
-        <h3>Anamnese</h3>
-        <p>Formulário detalhado de saúde bucal.</p>
-      </div>
-
-      <div class="card">
-        <h3>Orçamentos</h3>
-        <p>Crie e envie propostas personalizadas.</p>
-      </div>
-
-      <div class="card">
-        <h3>Financeiro</h3>
-        <p>Controle receitas, despesas e relatórios.</p>
-      </div>
-    </section>
-  </main>
-<script>
-  // Impede acesso direto sem login
-  if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "login.html";
-  }
-</script>
-<button class="logout-btn" onclick="logout()">Sair</button>
-
-<script>
-  function logout(){
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login.html";
-  }
-</script>
-
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 OdontoSimples. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 </body>
 </html>

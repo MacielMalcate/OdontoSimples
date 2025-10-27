@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -19,7 +19,7 @@
       <ul>
         <li><a href="dashboard.html" class="active">🏠 Dashboard</a></li>
         <li><a href="agenda.html">🗓️ Agenda</a></li>
-        <li><a href="pacientes.html">🧑Pacientes</a></li>
+        <li><a href="pacientes.html">🧑 Pacientes</a></li>
         <li><a href="prontuário.html">📋 Prontuário</a></li>
         <li><a href="anamnese.html">🩺 Anamnese</a></li>
         <li><a href="financeiro.html">💰 Financeiro</a></li>
@@ -31,12 +31,48 @@
   <!-- Conteúdo principal -->
   <main class="main-content">
     <header class="topbar">
-      <h1>Anamnese</h1>
+      <h1>Bem-vindo(a), Dr(a) .</h1>
       <!--<button class="logout-btn">Sair</button>-->
     </header>
 
+    <section class="cards-container">
+
+        <a href="agenda.html" class="card-link">
+      <div class="card">
+        <h3>Agenda</h3>
+        <p>Gerencie seus horários e compromissos.</p>
+      </div>
+
+
+      <a href="pacientes.html" class="card-link">
+  <div class="card">
+    <h3>Pacientes</h3>
+    <p>Cadastre e acompanhe seus pacientes.</p>
+  </div>
+</a>
+
+
+      <div class="card">
+        <h3>Prontuário</h3>
+        <p>Acesse o histórico clínico completo.</p>
+      </div>
+
+      <div class="card">
+        <h3>Anamnese</h3>
+        <p>Formulário detalhado de saúde bucal.</p>
+      </div>
+
+      <div class="card">
+        <h3>Orçamentos</h3>
+        <p>Crie e envie propostas personalizadas.</p>
+      </div>
+
+      <div class="card">
+        <h3>Financeiro</h3>
+        <p>Controle receitas, despesas e relatórios.</p>
+      </div>
+    </section>
   </main>
-  <h1></h1>
 <script>
   // Impede acesso direto sem login
   if(localStorage.getItem("loggedIn") !== "true"){
