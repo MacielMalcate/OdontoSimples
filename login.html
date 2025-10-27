@@ -1,51 +1,174 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - OdontoSimples</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - OdontoSimples</title>
+    <style>
+        /* Estilos básicos para a página de login */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #007bff; /* Azul primário */
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+
+        main {
+            flex-grow: 1; /* Faz com que o main ocupe o espaço restante */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            color: #007bff;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box; /* Garante que padding e border não aumentem a largura */
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-login {
+            background-color: #007bff; /* Azul primário */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: auto;
+            margin-top: 20px;
+        }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2em 0;
+            margin-top: auto; /* Empurra o footer para baixo */
+        }
+    </style>
 </head>
-<body class="login-body">
+<body>
+    <header>
+        <div class="container">
+            <h1>OdontoSimples</h1>
+        </div>
+    </header>
 
-  <div class="login-container">
-    <img src="logo/logo.png" alt="OdontoSimples" class="login-logo">
-    <h2>Bem-vindo(a) ao OdontoSimples</h2>
-    <p class="login-subtitle">Acesse sua conta</p>
+    <main>
+        <div class="login-container">
+            <h2>Acessar o Sistema</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" placeholder="Sua senha" required>
+                </div>
+                <button type="submit" class="btn-login">Entrar</button>
+                <div id="message" class="message" style="display:none;"></div>
+            </form>
+            <p style="margin-top: 20px;">Não tem uma conta? <a href="/cadastro" style="color: #007bff; text-decoration: none;">Cadastre-se aqui!</a></p>
+            <!-- Opcional: link para recuperação de senha -->
+            <!-- <p><a href="/recuperar-senha" style="color: #007bff; text-decoration: none;">Esqueceu sua senha?</a></p> -->
+        </div>
+    </main>
 
-    <form id="loginForm">
-      <input type="email" id="email" placeholder="E-mail" required>
-      <input type="password" id="password" placeholder="Senha" required>
-      <button type="submit">Entrar</button>
-      <p class="login-footer">Ainda não tem conta? <a href="cadastro.html">Criar conta</a></p>
-    </form>
-  </div>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 OdontoSimples. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 
-  <script type="module">
-    import { auth } from "./firebase-config.js";
-    import { signInWithEmailAndPassword } 
-      from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-
-    const form = document.getElementById("loginForm");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const email = document.getElementById("email").value;
-      const senha = document.getElementById("password").value;
-
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-        const user = userCredential.user;
-
-        alert(`Bem-vindo(a), ${user.displayName || "Dentista"}!`);
-        localStorage.setItem("loggedIn", "true");
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Erro ao fazer login: " + error.message);
-      }
-    });
-  </script>
-
+    <!-- Firebase SDKs - ADICIONE SEUS PRÓPRIOS CÓDIGOS DE CONFIGURAÇÃO! -->
+    <!-- Exemplo de como carregar os SDKs do Firebase via CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    
+    <!-- Seu script personalizado para o login -->
+    <script src="login.js"></script>
 </body>
 </html>

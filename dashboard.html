@@ -1,92 +1,131 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OdontoSimples - Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - OdontoSimples</title>
+    <style>
+        /* Estilos para o dashboard */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5em 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+
+        .logout-button {
+            background-color: #dc3545; /* Vermelho para sair */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        main h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .user-info p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .user-info strong {
+            color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2em 0;
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>OdontoSimples - Dashboard</h1>
+        </div>
+          
 
-  <!-- Sidebar fixa -->
-  <aside class="sidebar">
-    <div class="logo.login-container.">
-      <img src="logo/logo.png" alt="Logo OdontoSimples" class="logo-img">
 
-    <!--<h2>OdontoSimples</h2>-->
-    </div>
-    <nav>
-      <ul>
-        <li><a href="dashboard.html" class="active">🏠 Dashboard</a></li>
-        <li><a href="agenda.html">🗓️ Agenda</a></li>
-        <li><a href="pacientes.html">🧑 Pacientes</a></li>
-        <li><a href="prontuário.html">📋 Prontuário</a></li>
-        <li><a href="anamnese.html">🩺 Anamnese</a></li>
-        <li><a href="financeiro.html">💰 Financeiro</a></li>
-        <li><a href="configuracões.html">⚙️ Configuracões</a></li>
-      </ul>
-    </nav>
-  </aside>
+        <button id="logoutButton">Sair</button>
 
-  <!-- Conteúdo principal -->
-  <main class="main-content">
-    <header class="topbar">
-      <h1>Bem-vindo(a), Dr(a) .</h1>
-      <!--<button class="logout-btn">Sair</button>-->
+<script>
+  document.getElementById('logoutButton').addEventListener('click', function() {
+    // Redireciona para a página inicial (index.html)
+    window.location.href = "index.html";
+  });
+</script>
+
     </header>
 
-    <section class="cards-container">
+    <main>
+        <h2>Bem-vindo(a) ao seu Dashboard!</h2>
+        <div class="user-info">
+            <p><strong>Nome:</strong> <span id="userName">Carregando...</span></p>
+            <p><strong>E-mail:</strong> <span id="userEmail">Carregando...</span></p>
+            <!-- Você pode adicionar mais informações do usuário aqui -->
+        </div>
+        <hr>
+        <p>Aqui você poderá gerenciar seus agendamentos, pacientes e finanças.</p>
+        <!-- Adicione aqui o conteúdo principal do seu dashboard -->
+    </main>
 
-        <a href="agenda.html" class="card-link">
-      <div class="card">
-        <h3>Agenda</h3>
-        <p>Gerencie seus horários e compromissos.</p>
-      </div>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 OdontoSimples. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 
-
-      <a href="pacientes.html" class="card-link">
-  <div class="card">
-    <h3>Pacientes</h3>
-    <p>Cadastre e acompanhe seus pacientes.</p>
-  </div>
-</a>
-
-
-      <div class="card">
-        <h3>Prontuário</h3>
-        <p>Acesse o histórico clínico completo.</p>
-      </div>
-
-      <div class="card">
-        <h3>Anamnese</h3>
-        <p>Formulário detalhado de saúde bucal.</p>
-      </div>
-
-      <div class="card">
-        <h3>Orçamentos</h3>
-        <p>Crie e envie propostas personalizadas.</p>
-      </div>
-
-      <div class="card">
-        <h3>Financeiro</h3>
-        <p>Controle receitas, despesas e relatórios.</p>
-      </div>
-    </section>
-  </main>
-<script>
-  // Impede acesso direto sem login
-  if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "login.html";
-  }
-</script>
-<button class="logout-btn" onclick="logout()">Sair</button>
-
-<script>
-  function logout(){
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login.html";
-  }
-</script>
-
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Seu script personalizado para o dashboard -->
+    <script src="dashboard.js"></script>
 </body>
 </html>
