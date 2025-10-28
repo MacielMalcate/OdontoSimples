@@ -86,7 +86,7 @@ cadastroForm.addEventListener('submit', async (e) => {
         
         // Redireciona o usuário para o dashboard após um pequeno atraso
         setTimeout(() => {
-            window.location.href = '/dashboard.html'; // Altere para o caminho real do seu dashboard
+            window.location.href = 'dashboard.html'; // Altere para o caminho real do seu dashboard
         }, 2000);
 
     } catch (error) {

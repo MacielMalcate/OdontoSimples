@@ -62,7 +62,7 @@ loginForm.addEventListener('submit', async (e) => {
         
         // Redireciona o usuário para o dashboard após um pequeno atraso
         setTimeout(() => {
-            window.location.href = '/dashboard'; // MUDE PARA O CAMINHO REAL DO SEU DASHBOARD
+            window.location.href = 'dashboard.html'; // MUDE PARA O CAMINHO REAL DO SEU DASHBOARD
         }, 1500);
 
     } catch (error) {
@@ -85,7 +85,7 @@ auth.onAuthStateChanged(user => {
     if (user) {
         // Se o usuário já estiver logado e tentar acessar a página de login, redirecione-o
         console.log("Usuário já logado:", user.email);
-        window.location.href = '/dashboard.html'; // Redireciona para o dashboard
+        window.location.href = 'dashboard.html'; // Redireciona para o dashboard
     }
     // Se não houver usuário, a página de login permanece
 });

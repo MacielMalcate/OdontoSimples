@@ -48,7 +48,7 @@ auth.onAuthStateChanged(async (user) => {
     } else {
         // Usuário não está logado, redireciona para a página de login
         console.log("Nenhum usuário logado. Redirecionando para login.");
-        window.location.href = '/login'; // Ajuste o caminho se necessário
+        window.location.href = 'login'; // Ajuste o caminho se necessário
     }
 });
 
@@ -57,7 +57,7 @@ logoutBtn.addEventListener('click', async () => {
     try {
         await auth.signOut();
         console.log("Usuário deslogado com sucesso.");
-        window.location.href = '/login'; // Redireciona para a página de login após o logout
+        window.location.href = 'login'; // Redireciona para a página de login após o logout
     } catch (error) {
         console.error("Erro ao fazer logout:", error);
         alert("Erro ao fazer logout. Tente novamente.");
