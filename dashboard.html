@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - OdontoSimples</title>
     <style>
-        /* Estilos para o dashboard */
+        /* Reset e Base */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -13,25 +13,87 @@
             background-color: #f4f7f6;
             color: #333;
             min-height: 100vh;
+            display: flex; /* Flex container para o layout principal */
+        }
+
+        /* --- Layout Principal --- */
+        .dashboard-layout {
+            display: flex;
+            width: 100%;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 250px; /* Largura fixa da sidebar */
+            background-color: #34495e; /* Azul escuro */
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            position: fixed; /* Fixa a sidebar */
+            height: 100%; /* Ocupa a altura total */
+            overflow-y: auto; /* Permite scroll se o conteúdo for grande */
             display: flex;
             flex-direction: column;
         }
 
+        .sidebar h2 {
+            text-align: center;
+            color: #ecf0f1; /* Cor mais clara para o título */
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .sidebar nav ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar nav ul li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar nav ul li a:hover, .sidebar nav ul li a.active {
+            background-color: #2c3e50; /* Um pouco mais claro no hover/ativo */
+            color: #85c1e9; /* Azul claro para destacar */
+        }
+
+        /* --- Conteúdo Principal (Header + Main + Footer) --- */
+        .main-content {
+            margin-left: 250px; /* Empurra o conteúdo principal para o lado da sidebar */
+            flex-grow: 1; /* Ocupa o restante da largura */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header --- */
         header {
             background-color: #007bff;
             color: white;
-            padding: 1.5em 0;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 1.5em 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex; /* Define como container flex */
+            align-items: center; /* Alinha itens verticalmente ao centro */
+            /* Removido justify-content: space-between para controle manual de espaçamento */
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.2em;
+        header .user-greeting {
+            font-size: 1.3em;
+            font-weight: bold;
+            flex-grow: 1; /* Permite que este item ocupe o espaço disponível */
+            text-align: center; /* Centraliza o texto dentro do user-greeting */
         }
 
         .logout-button {
@@ -43,12 +105,14 @@
             font-size: 1em;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin-left: auto; /* Empurra o botão para a direita */
         }
 
         .logout-button:hover {
             background-color: #c82333;
         }
 
+        /* --- Main Content Area --- */
         main {
             flex-grow: 1;
             padding: 40px 20px;
@@ -65,60 +129,83 @@
             font-size: 2em;
         }
 
-        .user-info p {
-            font-size: 1.1em;
-            margin-bottom: 10px;
-        }
-
-        .user-info strong {
-            color: #555;
-        }
-
+        /* --- Footer --- */
         footer {
-            background-color: #333;
+            background-color: #007bff;
             color: white;
             text-align: center;
-            padding: 2em 0;
+            padding: 1.5em 0;
             margin-top: auto;
+        }
+
+        /* Responsividade básica para telas menores */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .dashboard-layout {
+                flex-direction: column;
+            }
+            header {
+                flex-direction: column; /* Em telas pequenas, empilha o user-greeting e o botão */
+            }
+            header .user-greeting {
+                text-align: center;
+                margin-bottom: 10px; /* Espaçamento entre o cumprimento e o botão em telas pequenas */
+            }
+            .logout-button {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>OdontoSimples - Dashboard</h1>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <h2>OdontoSimples</h2>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="/agenda">Agenda</a></li>
+                    <li><a href="/pacientes">Pacientes</a></li>
+                    <li><a href="/anamnese">Anamnese</a></li>
+                    <li><a href="/prontuario">Prontuário</a></li>
+                    <li><a href="/orcamentos">Orçamentos</a></li>
+                    <li><a href="/financeiro">Financeiro</a></li>
+                    <li><a href="/configuracoes">Configurações</a></li>
+                    <li><a href="/relatorios">Relatórios</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header>
+                <!-- Removido o <h1> para simplificar o cabeçalho do conteúdo principal -->
+                <div class="user-greeting">Olá, <span id="userName">Carregando...</span>!</div>
+                <button id="logoutBtn" class="logout-button">Sair</button>
+            </header>
+
+            <main>
+                <h2>Visão Geral do Consultório</h2>
+                <!-- Conteúdo principal do dashboard aqui -->
+                <p>Aqui você encontrará um resumo das atividades do seu consultório.</p>
+                <p>Total de Agendamentos para hoje: <strong>5</strong></p>
+                <p>Próximo Paciente: <strong>João Silva</strong> (14:30)</p>
+            </main>
+
+            <footer>
+                <div class="container">
+                    <p>&copy; 2024 OdontoSimples. Todos os direitos reservados.</p>
+                </div>
+            </footer>
         </div>
-          
-
-
-        <button id="logoutButton">Sair</button>
-
-<script>
-  document.getElementById('logoutButton').addEventListener('click', function() {
-    // Redireciona para a página inicial (index.html)
-    window.location.href = "index.html";
-  });
-</script>
-
-    </header>
-
-    <main>
-        <h2>Bem-vindo(a) ao seu Dashboard!</h2>
-        <div class="user-info">
-            <p><strong>Nome:</strong> <span id="userName">Carregando...</span></p>
-            <p><strong>E-mail:</strong> <span id="userEmail">Carregando...</span></p>
-            <!-- Você pode adicionar mais informações do usuário aqui -->
-        </div>
-        <hr>
-        <p>Aqui você poderá gerenciar seus agendamentos, pacientes e finanças.</p>
-        <!-- Adicione aqui o conteúdo principal do seu dashboard -->
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 OdontoSimples. Todos os direitos reservados.</p>
-        </div>
-    </footer>
+    </div>
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>

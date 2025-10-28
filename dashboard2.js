@@ -18,7 +18,8 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // Pega os elementos onde as informações do usuário serão exibidas
-const userNameSpan = document.getElementById('userName'); // Elemento para exibir o nome do usuário no cabeçalho
+const userNameSpan = document.getElementById('userName');
+const userEmailSpan = document.getElementById('userEmail');
 const logoutBtn = document.getElementById('logoutBtn');
 
 // --- PROTEÇÃO DA PÁGINA E EXIBIÇÃO DOS DADOS DO USUÁRIO ---
@@ -26,29 +27,28 @@ auth.onAuthStateChanged(async (user) => {
     if (user) {
         // Usuário está logado
         console.log("Usuário logado:", user.uid);
-        
+        userEmailSpan.textContent = user.email; // O e-mail já vem do auth
+
         try {
             // Tenta buscar os dados adicionais do usuário no Firestore
             const userDoc = await db.collection('users').doc(user.uid).get();
 
             if (userDoc.exists) {
                 const userData = userDoc.data();
-                // Exibe apenas o primeiro nome se disponível, ou a parte do e-mail antes do @
-                const displayName = userData.nome ? userData.nome.split(' ')[0] : user.email.split('@')[0];
-                userNameSpan.textContent = displayName;
+                userNameSpan.textContent = userData.nome || user.email; // Exibe o nome ou o e-mail se não encontrar
             } else {
-                console.log("Documento do usuário não encontrado no Firestore. Exibindo parte do e-mail.");
-                userNameSpan.textContent = user.email.split('@')[0];
+                console.log("Documento do usuário não encontrado no Firestore.");
+                userNameSpan.textContent = user.email;
             }
         } catch (error) {
             console.error("Erro ao buscar dados do usuário no Firestore:", error);
-            userNameSpan.textContent = user.email.split('@')[0]; // Em caso de erro, usa a parte do e-mail
+            userNameSpan.textContent = user.email;
         }
 
     } else {
         // Usuário não está logado, redireciona para a página de login
         console.log("Nenhum usuário logado. Redirecionando para login.");
-        window.location.href = 'login.html'; // Verifique se este caminho está correto para sua página de login
+        window.location.href = 'login'; // Ajuste o caminho se necessário
     }
 });
 
@@ -57,7 +57,7 @@ logoutBtn.addEventListener('click', async () => {
     try {
         await auth.signOut();
         console.log("Usuário deslogado com sucesso.");
-        window.location.href = 'login.html'; // Redireciona para a página de login após o logout
+        window.location.href = 'login'; // Redireciona para a página de login após o logout
     } catch (error) {
         console.error("Erro ao fazer logout:", error);
         alert("Erro ao fazer logout. Tente novamente.");
