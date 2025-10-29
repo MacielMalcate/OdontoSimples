@@ -1,0 +1,258 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro/Edição de Dentista - OdontoSimples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Estilos do Cabeçalho */
+        header {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .logo img {
+            max-height: 40px;
+            vertical-align: middle;
+        }
+
+        .back-button {
+            background-color: #6c757d; /* Cor secundária para o botão de voltar */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        .back-button::before {
+            content: '←';
+            margin-right: 8px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        /* Estilos do Formulário */
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin: 0 20px 30px 20px; /* Margem lateral e inferior */
+            box-sizing: border-box;
+            display: none; /* Escondido por padrão, mostra após autenticação */
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+            color: #495057;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        input[type="file"] {
+            padding-top: 8px; /* Ajuste para o tipo file */
+            padding-bottom: 8px;
+        }
+
+
+        input:focus, select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745; /* Cor de sucesso */
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            display: none; /* Escondido por padrão */
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        #currentFotoPreview {
+            display: block;
+            max-width: 150px;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            object-fit: cover;
+        }
+
+        /* Media queries para responsividade */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px 15px;
+            }
+            .logo {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            .form-container {
+                margin: 0 15px 30px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="dashboard.html" class="logo">
+                <!-- Se tiver uma imagem de logo, descomente e ajuste o src -->
+                <!-- <img src="caminho/para/sua/logo.png" alt="OdontoSimples Logo"> -->
+                OdontoSimples
+            </a>
+        </div>
+        <div>
+            <!-- Botão de Voltar para a lista de dentistas -->
+            <a href="listardentistas.html" class="back-button">Voltar para Dentistas</a>
+        </div>
+    </header>
+
+    <div class="form-container" id="dentistFormContainer">
+        <h1 id="formTitle">Cadastro de Dentista</h1>
+        <form id="dentistForm">
+            <div class="form-group">
+                <label for="nomeCompleto">Nome Completo</label>
+                <input type="text" id="nomeCompleto" required>
+            </div>
+            <div class="form-group">
+                <label for="cro">CRO</label>
+                <input type="text" id="cro" required placeholder="Ex: MG-CD-12345">
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" placeholder="(XX) XXXX-XXXX" pattern="^\(\d{2}\)\s\d{4,5}-\d{4}$" title="Formato: (XX) XXXX-XXXX ou (XX) XXXXX-XXXX">
+            </div>
+            <div class="form-group">
+                <label for="especialidade">Especialidade</label>
+                <select id="especialidade" required>
+                    <option value="">Selecione uma especialidade</option>
+                    <option value="clinico-geral">Clínico Geral</option>
+                    <option value="ortodontista">Ortodontista</option>
+                    <option value="periodontista">Periodontista</option>
+                    <option value="endodontista">Endodontista</option>
+                    <option value="implantodontista">Implantodontista</option>
+                    <option value="protesista">Protesista</option>
+                    <option value="cirurgiao">Cirurgião Dentista</option>
+                    <option value="outra">Outra</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="enderecoConsultorio">Endereço do Consultório</label>
+                <input type="text" id="enderecoConsultorio" required>
+            </div>
+            <div class="form-group">
+                <label for="fotoPerfil">Foto de Perfil</label>
+                <input type="file" id="fotoPerfil" accept="image/*">
+                <img id="currentFotoPreview" src="" alt="Pré-visualização da foto" style="display: none;">
+            </div>
+            <button type="submit" id="submitButton">Cadastrar Dentista</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <!-- Script com a lógica de cadastro/edição -->
+    <script type="module" src="cadastrodentista.js"></script>
+</body>
+</html>

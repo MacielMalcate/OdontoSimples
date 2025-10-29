@@ -1,0 +1,197 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - OdontoSimples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 0; /* Removendo padding do body para o header ocupar a largura total */
+            display: flex;
+            flex-direction: column; /* Para organizar o header e o conteúdo em coluna */
+            align-items: center; /* Centraliza o conteúdo horizontalmente */
+            min-height: 100vh;
+        }
+
+        /* Estilos para o cabeçalho */
+        header {
+            width: 100%;
+            background-color: #170581;
+            padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(247, 244, 244, 0.432);
+            display: flex;
+            justify-content: space-between; /* Alinha logo à esquerda e botão à direita */
+            align-items: center;
+            margin-bottom: 30px; /* Espaço entre o cabeçalho e os cards */
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .logo img { 
+            max-height: 40px; /* Ajuste o tamanho da sua logo aqui */
+            vertical-align: middle;
+        }
+
+        .back-button {
+            background-color: #007bff; /* Cor primária do botão */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-button::before {
+            content: '←'; /* Símbolo de seta para a esquerda */
+            margin-right: 8px;
+            font-size: 1.2em;
+            line-height: 1; /* Alinhamento vertical do ícone */
+        }
+
+        /* Estilos para o container dos cards (mantidos, mas com ajuste de padding top) */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Cards responsivos */
+            gap: 25px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 20px; /* Adiciona padding lateral para os cards */
+            box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Efeito "suspenso" */
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            text-decoration: none; /* Remove sublinhado do link */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 150px;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-7px); /* Leve elevação ao passar o mouse */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .card-description {
+            font-size: 0.95em;
+            color: #667788;
+            line-height: 1.5;
+        }
+
+        /* Media queries para responsividade */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column; /* Empilha logo e botão em telas menores */
+                padding: 15px 15px;
+            }
+
+            .logo {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+
+            .cards-container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <!-- Sua logo aqui. Pode ser um texto ou uma imagem -->
+            <a href="dashboard.html" class="logo">
+                <!-- <img src="caminho/para/sua/logo.png" alt="OdontoSimples Logo"> -->
+                OdontoSimples 
+            </a>
+        </div>
+        <div>
+            <!-- Botão de Voltar para o Dashboard -->
+            <a href="dashboard.html" class="back-button">Voltar para o Dashboard</a>
+        </div>
+    </header>
+
+    <div class="cards-container">
+        <!-- Card 1: Cadastro de Dentista -->
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Cadastro de Dentista</h3>
+            <p class="card-description">Gerencie as informações e credenciais dos dentistas no sistema.</p>
+        </a>
+
+        <!-- Cards de 2 a 10: prontos para serem personalizados futuramente -->
+        <a href="listardentistas.html" class="card">
+            <h3 class="card-title">Gerenciamento de Dentistas</h3>
+            <p class="card-description">Lista completa </p>
+        </a>
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Gestão de Pacientes</h3>
+            <p class="card-description">Acesse e edite os perfis e históricos dos pacientes.</p>
+        </a>
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Configurações Financeiras</h3>
+            <p class="card-description">Ajuste métodos de pagamento, preços e relatórios financeiros.</p>
+        </a>
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Preferências do Sistema</h3>
+            <p class="card-description">Personalize o tema, notificações e outras opções globais.</p>
+        </a>
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Segurança e Acesso</h3>
+            <p class="card-description">Gerencie permissões de usuários e configurações de segurança.</p>
+        </a>
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Integrações Externas</h3>
+            <p class="card-description">Conecte o OdontoSimples a outros serviços e plataformas.</p>
+        </a>
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Relatórios e Análises</h3>
+            <p class="card-description">Configure e visualize relatórios sobre o desempenho da clínica.</p>
+        </a>
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Ajuda e Suporte</h3>
+            <p class="card-description">Acesse recursos de ajuda e informações de contato para suporte.</p>
+        </a>
+        <a href="cadastrodentista.html" class="card">
+            <h3 class="card-title">Informações da Clínica</h3>
+            <p class="card-description">Edite detalhes de contato, endereço e horário de funcionamento.</p>
+        </a>
+    </div>
+</body>
+</html>

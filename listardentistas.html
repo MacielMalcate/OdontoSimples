@@ -1,0 +1,237 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Dentistas - OdontoSimples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Estilos do Cabeçalho (Mantenha o mesmo que nas outras páginas) */
+        header {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .logo img {
+            max-height: 40px;
+            vertical-align: middle;
+        }
+
+        .back-button {
+            background-color: #007bff; /* Cor primária para adicionar novo */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        .back-button.add-new::before {
+            content: '+'; /* Ícone de adicionar */
+            margin-right: 8px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+        
+        .back-button.to-configs::before {
+            content: '←'; /* Ícone de voltar */
+            margin-right: 8px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        /* Estilos específicos desta página */
+        .content-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 1200px; /* Largura maior para a tabela */
+            width: 100%;
+            margin: 0 20px 30px 20px;
+            box-sizing: border-box;
+            overflow-x: auto; /* Para tabelas grandes em telas pequenas */
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #e9ecef;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-start;
+        }
+
+        .edit-button, .delete-button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            white-space: nowrap; /* Evita que o texto quebre */
+        }
+
+        .edit-button {
+            background-color: #007bff;
+            color: white;
+        }
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .dentist-photo-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            vertical-align: middle;
+            margin-right: 10px;
+            border: 1px solid #eee;
+        }
+
+        /* Media queries para responsividade */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px 15px;
+            }
+            .logo {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            .content-container {
+                margin: 0 15px 30px 15px;
+                padding: 20px;
+            }
+            table, th, td {
+                font-size: 0.9em;
+            }
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="dashboard.html" class="logo">
+                OdontoSimples
+            </a>
+        </div>
+        <div>
+            <!-- Botão para adicionar novo dentista -->
+            <a href="cadastrodentista.html" class="back-button add-new">Adicionar Novo Dentista</a>
+            <!-- Botão para voltar para configurações -->
+            <a href="configuracoes.html" class="back-button to-configs" style="margin-left: 10px;">Voltar para Configurações</a>
+        </div>
+    </header>
+
+    <div class="content-container" id="listContainer">
+        <h1>Gerenciamento de Dentistas</h1>
+        <div id="message" class="message"></div>
+        <table id="dentistsTable">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nome</th>
+                    <th>CRO</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Especialidade</th>
+                    <th>Endereço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Os dados dos dentistas serão inseridos aqui pelo JavaScript -->
+            </tbody>
+        </table>
+        <p id="noDentistsMessage" style="text-align: center; margin-top: 20px; color: #6c757d; display: none;">Nenhum dentista cadastrado ainda.</p>
+    </div>
+
+    <script type="module" src="listardentistas.js"></script>
+</body>
+</html>
