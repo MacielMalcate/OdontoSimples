@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Pacientes - OdontoSimples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Estilos do Cabeçalho (Mantenha o mesmo padrão) */
+        header {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .logo img {
+            max-height: 40px;
+            vertical-align: middle;
+        }
+
+        .back-button { /* Para o botão "Voltar para Configurações" */
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        .back-button::before {
+            content: '←';
+            margin-right: 8px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        /* Cards de Ação Rápida */
+        .quick-action-cards {
+            display: flex;
+            flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .action-card {
+            background-color: #007bff; /* Cor primária */
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            flex: 1; /* Distribui o espaço igualmente */
+            min-width: 280px; /* Largura mínima para os cards */
+            max-width: 380px; /* Largura máxima para os cards */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .action-card.anamnese { background-color: #28a745; } /* Sucesso */
+        .action-card.prontuario { background-color: #ffc107; color: #343a40; } /* Alerta */
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            filter: brightness(1.1); /* Leve brilho ao passar o mouse */
+        }
+
+        /* Estilos do Conteúdo Principal */
+        .content-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 20px 30px 20px;
+            box-sizing: border-box;
+            overflow-x: auto;
+            display: none; /* Escondido por padrão, mostra após login */
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #e9ecef;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .action-buttons-group {
+            display: flex;
+            flex-wrap: wrap; /* Permite quebrar linha para botões */
+            gap: 5px;
+            justify-content: flex-start;
+        }
+
+        .action-buttons-group button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            white-space: nowrap; /* Evita que o texto quebre */
+        }
+
+        /* Cores para os botões de ação na tabela */
+        .btn-cadastro, .btn-anamnese, .btn-prontuario, .btn-financeiro, .btn-imagens, .btn-documentos, .btn-deletar {
+            color: white;
+        }
+        .btn-cadastro { background-color: #007bff; } /* Azul */
+        .btn-cadastro:hover { background-color: #0056b3; }
+        .btn-anamnese { background-color: #28a745; } /* Verde */
+        .btn-anamnese:hover { background-color: #218838; }
+        .btn-prontuario { background-color: #ffc107; color: #343a40; } /* Amarelo */
+        .btn-prontuario:hover { background-color: #e0a800; }
+        .btn-financeiro { background-color: #17a2b8; } /* Ciano */
+        .btn-financeiro:hover { background-color: #138496; }
+        .btn-imagens { background-color: #6f42c1; } /* Roxo */
+        .btn-imagens:hover { background-color: #563d7c; }
+        .btn-documentos { background-color: #fd7e14; } /* Laranja */
+        .btn-documentos:hover { background-color: #e86b0c; }
+        .btn-deletar { background-color: #dc3545; } /* Vermelho */
+        .btn-deletar:hover { background-color: #c82333; }
+
+        .patient-photo-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            vertical-align: middle;
+            margin-right: 10px;
+            border: 1px solid #eee;
+        }
+
+        /* Media queries para responsividade */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px 15px;
+            }
+            .logo {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            .quick-action-cards {
+                flex-direction: column;
+                align-items: center;
+                padding: 0 15px;
+            }
+            .action-card {
+                width: 100%;
+                max-width: none;
+            }
+            .content-container {
+                margin: 0 15px 30px 15px;
+                padding: 20px;
+            }
+            table, th, td {
+                font-size: 0.8em;
+            }
+            .action-buttons-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="dashboard.html" class="logo">
+                OdontoSimples
+            </a>
+        </div>
+        <div>
+            <a href="dashboard.html" class="back-button">Voltar para dashboard</a>
+        </div>
+    </header>
+
+    <div class="quick-action-cards">
+        <a href="cadastropaciente.html" class="action-card new-patient">Novo Cadastro de Paciente</a>
+        <a href="anamnese.html?mode=new" class="action-card anamnese">Nova Anamnese</a>
+        <a href="prontuario.html?mode=new" class="action-card prontuario">Novo Prontuário</a>
+    </div>
+
+    <div class="content-container" id="patientListContainer">
+        <h1>Gerenciamento de Pacientes</h1>
+        <div id="message" class="message"></div>
+        <table id="patientsTable">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Os dados dos pacientes serão inseridos aqui pelo JavaScript -->
+            </tbody>
+        </table>
+        <p id="noPatientsMessage" style="text-align: center; margin-top: 20px; color: #6c757d; display: none;">Nenhum paciente cadastrado ainda.</p>
+    </div>
+
+    <script type="module" src="listarpacientes.js"></script>
+</body>
+</html>
